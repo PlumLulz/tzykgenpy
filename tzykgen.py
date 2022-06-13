@@ -50,7 +50,15 @@ def turkey_zyxelgen(serial):
 	
 	md52 = hashlib.md5()
 	md52.update(s2.encode())
-	hex_digest = md52.hexdigest()
+	#hex_digest = md52.hexdigest()
+	# Make sure final hash doesn't have a leading 0 as the high nibble on each byte.
+	# Manually convert each byte and check for leading 0. 
+	hex_digest = ""
+	for i in range(16):
+		hbyte = hex(md52.digest()[i]).strip("0x").upper()
+		if hbyte[0] == 0:
+			hbyte[0] = hbyte[1]
+		hex_digest += hbyte
 	alter = [dig.upper() if not i % 2 else dig.lower() for i, dig in enumerate(hex_digest)]
 	alter = "".join(alter)
 	key = alter[13:26]
@@ -62,4 +70,3 @@ parser.add_argument('serial', help='Serial Number')
 args = parser.parse_args()
 
 turkey_zyxelgen(args.serial)
-
