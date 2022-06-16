@@ -55,8 +55,8 @@ def turkey_zyxelgen(serial):
 	# Manually convert each byte and check for leading 0. 
 	hex_digest = ""
 	for i in range(16):
-		hbyte = hex(md52.digest()[i]).strip("0x").upper()
-		if hbyte[0] == "0":
+		hbyte = hex(md52.digest()[i])[2:].upper()
+		if hbyte[0] == 0:
 			hbyte[0] = hbyte[1]
 		hex_digest += hbyte
 	alter = [dig.upper() if not i % 2 else dig.lower() for i, dig in enumerate(hex_digest)]
@@ -70,4 +70,3 @@ parser.add_argument('serial', help='Serial Number')
 args = parser.parse_args()
 
 turkey_zyxelgen(args.serial)
-
