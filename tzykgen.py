@@ -29,13 +29,11 @@ def turkey_zyxelgen(serial):
 		byte = md5.digest()[i]
 		c1 = hex(byte >> 4)[2:].upper()
 		c2 = hex(byte % 16)[2:]
-
 		if c1 == "0":
 			c1 = c2
 		p += c1
 		p += c2
 		summ = summ + ord(c1) + ord(c2)
-
 	i = summ % 265
 	if summ & 1:
 		s1 = hex(ord(junk[1 + i * 3 - 1]))[2:]
@@ -50,12 +48,10 @@ def turkey_zyxelgen(serial):
 	
 	md52 = hashlib.md5()
 	md52.update(s2.encode())
-	#hex_digest = md52.hexdigest()
-	# Make sure final hash doesn't have a leading 0 as the high nibble on each byte.
 	# Manually convert each byte and check for leading 0. 
 	hex_digest = ""
 	for i in range(16):
-		hbyte = "{:02x}".format(md52.digest()[i]).upper()
+		hbyte = "{:02X}".format(md52.digest()[i])
 		if hbyte[0] == "0":
 			hbyte = hbyte[1] + hbyte[1]
 		hex_digest += hbyte
