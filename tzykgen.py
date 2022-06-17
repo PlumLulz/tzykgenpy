@@ -54,10 +54,11 @@ def turkey_zyxelgen(serial):
 	# Make sure final hash doesn't have a leading 0 as the high nibble on each byte.
 	# Manually convert each byte and check for leading 0. 
 	hex_digest = ""
+	print(md52.hexdigest())
 	for i in range(16):
-		hbyte = hex(md52.digest()[i])[2:].upper()
-		if hbyte[0] == 0:
-			hbyte[0] = hbyte[1]
+		hbyte = "{:02x}".format(md52.digest()[i]).upper()
+		if hbyte[0] == "0":
+			hbyte = hbyte[1] + hbyte[1]
 		hex_digest += hbyte
 	alter = [dig.upper() if not i % 2 else dig.lower() for i, dig in enumerate(hex_digest)]
 	alter = "".join(alter)
