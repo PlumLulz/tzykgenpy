@@ -54,7 +54,6 @@ def turkey_zyxelgen(serial):
 	# Make sure final hash doesn't have a leading 0 as the high nibble on each byte.
 	# Manually convert each byte and check for leading 0. 
 	hex_digest = ""
-	print(md52.hexdigest())
 	for i in range(16):
 		hbyte = "{:02x}".format(md52.digest()[i]).upper()
 		if hbyte[0] == "0":
