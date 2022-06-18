@@ -24,16 +24,15 @@ def turkey_zyxelgen(serial):
 
 	p = ""
 	summ = 0
+	for b in md5.digest():
+		d1 = hex(b)[2:].upper()
+		if len(d1) == 1:
+			d1 += d1
+		else:
+			d1 = ("%s%s") % (d1[0],d1[1].lower())
+		p += d1
+	summ = sum([ord(char) for char in p])
 
-	for i in range(16):
-		byte = md5.digest()[i]
-		c1 = hex(byte >> 4)[2:].upper()
-		c2 = hex(byte % 16)[2:]
-		if c1 == "0":
-			c1 = c2
-		p += c1
-		p += c2
-		summ = summ + ord(c1) + ord(c2)
 	i = summ % 265
 	if summ & 1:
 		s1 = hex(ord(junk[1 + i * 3 - 1]))[2:]
@@ -48,16 +47,16 @@ def turkey_zyxelgen(serial):
 	
 	md52 = hashlib.md5()
 	md52.update(s2.encode())
-	# Manually convert each byte and check for leading 0. 
 	hex_digest = ""
-	for i in range(16):
-		hbyte = "{:02X}".format(md52.digest()[i])
-		if hbyte[0] == "0":
-			hbyte = hbyte[1] + hbyte[1]
-		hex_digest += hbyte
-	alter = [dig.upper() if not i % 2 else dig.lower() for i, dig in enumerate(hex_digest)]
-	alter = "".join(alter)
-	key = alter[13:26]
+	for b in md52.digest():
+		d2 = hex(b)[2:].upper()
+		if len(d2) == 1:
+			d2 += d2
+		else:
+			d2 = ("%s%s") % (d2[0],d2[1].lower())
+		hex_digest += d2
+
+	key = hex_digest[13:26]
 	print(key)
 
 
